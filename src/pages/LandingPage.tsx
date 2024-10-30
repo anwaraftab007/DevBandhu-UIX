@@ -10,7 +10,8 @@ function LandingPage() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="md:w-10/12 mx-auto justify-center items-center">
+       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Code2 className="w-8 h-8 text-indigo-500" />
           <span className="text-2xl font-bold">DevBandhu</span>
@@ -94,7 +95,9 @@ function LandingPage() {
             </p>
           </motion.div>
         </div>
-      </main>
+      </main> 
+      </div>
+      
     </div>
   );
 }

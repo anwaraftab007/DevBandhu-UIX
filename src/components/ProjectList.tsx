@@ -1,36 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FolderGit2, Star, Users } from 'lucide-react';
 import { ProjectDetails } from './ProjectDetails';
-
-const projects = [
-  {
-    id: 1,
-    name: 'E-Commerce Platform',
-    description: 'A modern e-commerce platform built with React and Node.js',
-    members: 5,
-    stars: 12,
-    language: 'TypeScript',
-    repoUrl: 'https://github.com/example/ecommerce',
-    isOwner: false,
-    isMember: true,
-  },
-  {
-    id: 2,
-    name: 'Task Management App',
-    description: 'Collaborative task management application with real-time updates',
-    members: 3,
-    stars: 8,
-    language: 'JavaScript',
-    repoUrl: 'https://github.com/example/task-manager',
-    isOwner: true,
-    isMember: true,
-  },
-];
+import {base} from '../constant'
+// const projects = [
+//   {
+//     id: 1,
+//     name: 'E-Commerce Platform',
+//     description: 'A modern e-commerce platform built with React and Node.js',
+//     members: 5,
+//     stars: 12,
+//     language: 'TypeScript',
+//     repoUrl: 'https://github.com/example/ecommerce',
+//     isOwner: false,
+//     isMember: true,
+//   },
+//   {
+//     id: 2,
+//     name: 'Task Management App',
+//     description: 'Collaborative task management application with real-time updates',
+//     members: 3,
+//     stars: 8,
+//     language: 'JavaScript',
+//     repoUrl: 'https://github.com/example/task-manager',
+//     isOwner: true,
+//     isMember: true,
+//   },
+// ];
 
 export function ProjectList() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [projects, setProjects] = useState([])
+  const [message, setMessage] = useState('')
+  useEffect(() => {
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch(`${base}/project`);
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            const data = await response.json();
+            
+            setProjects(data.data);
+        } catch (error) {
+            setMessage(`Error: ${error.message}`);
+        }
+    };
 
+    fetchProjects();
+}, []);
   return (
     <div className="p-8">
       {selectedProject ? (
@@ -42,7 +60,7 @@ export function ProjectList() {
         <>
           <h2 className="text-2xl font-bold text-white mb-6">Your Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
+            {projects && projects.map((project) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
