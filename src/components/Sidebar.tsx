@@ -7,7 +7,10 @@ import {
   LogOut, 
   Plus,
   MessageSquare,
-  FolderGit2
+  FolderGit2,
+  Contact,
+  Contact2,
+  UserPlus
 } from 'lucide-react';
 import { Button } from './Button';
 
@@ -23,6 +26,7 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
     { icon: Home, label: 'Home', id: 'home' },
     { icon: FolderGit2, label: 'Projects', id: 'projects' },
     { icon: MessageSquare, label: 'Messages', id: 'messages' },
+    { icon: UserPlus, label: 'Join Requests', id: 'join-requests' },
     { icon: Users, label: 'Team', id: 'team' },
     { icon: Settings, label: 'Settings', id: 'settings' },
   ];

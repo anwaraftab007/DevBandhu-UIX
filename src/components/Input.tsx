@@ -3,9 +3,11 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  as?: 'input' | 'textarea';
+  rows?: number;
 }
 
-export function Input({ label, error, className = '', ...props }: InputProps) {
+export function Input({ label, error, as = 'input', rows, className = '', ...props }: InputProps) {
   return (
     <div className="space-y-1">
       {label && (

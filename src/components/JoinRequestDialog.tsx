@@ -6,8 +6,13 @@ import { Input } from './Input';
 
 interface JoinRequestDialogProps {
   projectName: string;
-  onSubmit: () => void;
+  onSubmit: (message: string) => void;
   onCancel: () => void;
+}
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  as?: 'input' | 'textarea';
+  rows?: number;
 }
 
 export function JoinRequestDialog({
@@ -19,7 +24,7 @@ export function JoinRequestDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit();
+    onSubmit(message);
   };
 
   return (

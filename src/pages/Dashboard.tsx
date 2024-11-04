@@ -5,6 +5,8 @@ import { MessageList } from '../components/MessageList';
 import { TeamSection } from '../components/TeamSection';
 import { SettingsSection } from '../components/SettingsSection';
 import { NewProject } from '../components/NewProject';
+import { ProjectJoinRequest } from '../components/ProjectJoinRequests';
+
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState('home');
@@ -21,6 +23,8 @@ export default function Dashboard() {
         return <SettingsSection />;
       case 'new-project':
         return <NewProject onClose={() => setActiveSection('projects')} />;
+      case 'join-requests':
+        return <ProjectJoinRequest />;
       default:
         return <ProjectList />;
     }

@@ -27,11 +27,27 @@ import {base} from '../constant'
 //     isMember: true,
 //   },
 // ];
-
+// Define the Project type
+interface JoinRequest {
+  user: string;
+  message: string;
+  status: 'pending' | 'approved' | 'rejected';
+}
+type Project = {
+  _id: number;
+    title: string;
+    description: string;
+    leader: string;
+    repoUrl: string;
+    members: Array<{}>;
+    joinRequests: JoinRequest[];
+    isOwner?: boolean;
+    isMember?: boolean;
+};
 export function ProjectList() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
-  const [projects, setProjects] = useState([])
-  const [message, setMessage] = useState('')
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [message, setMessage] = useState('');
   useEffect(() => {
     const fetchProjects = async () => {
         try {
@@ -43,7 +59,11 @@ export function ProjectList() {
             
             setProjects(data.data);
         } catch (error) {
+          if (error instanceof Error) {
             setMessage(`Error: ${error.message}`);
+          } else {
+            setMessage('An unknown error occurred.');
+          }
         }
     };
 
@@ -62,7 +82,7 @@ export function ProjectList() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects && projects.map((project) => (
               <motion.div
-                key={project.id}
+                key={project._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700 transition-colors cursor-pointer"
@@ -71,7 +91,7 @@ export function ProjectList() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
                     <FolderGit2 className="w-6 h-6 text-indigo-500" />
-                    <h3 className="text-lg font-semibold text-white">{project.name}</h3>
+                    <h3 className="text-lg font-semibold text-white">{project.title}</h3>
                   </div>
                 </div>
                 <p className="mt-2 text-gray-400 text-sm">{project.description}</p>
@@ -79,16 +99,9 @@ export function ProjectList() {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
                       <Users className="w-4 h-4" />
-                      <span className="text-sm">{project.members}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Star className="w-4 h-4" />
-                      <span className="text-sm">{project.stars}</span>
+                      <span className="text-sm">{project.members?.length}</span>
                     </div>
                   </div>
-                  <span className="text-sm px-2 py-1 rounded-full bg-gray-700">
-                    {project.language}
-                  </span>
                 </div>
                 {project.isOwner && (
                   <div className="mt-2">
